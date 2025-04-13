@@ -68,6 +68,8 @@ Topic: balanced_topic   Partition: 7    Leader: 0       Replicas: 0,1,2 Isr: 0,2
 Теперь в результатах появился брокер 1 среди лидеров.
 
 Задание 2.
+Вся инфраструктура с сертификатами, конфигурационными файлами и docker-compose.yml расположена в директории задание_2.
+
 Выдача прав на запись в топик topic-1:
 
 [appuser@kafka-2 ~]$ kafka-acls --authorizer-properties zookeeper.connect=zookeeper:2181 --add --allow-principal User:user --operation Write --topic topic-1
@@ -119,3 +121,15 @@ Adding ACLs for resource `ResourcePattern(resourceType=TOPIC, name=topic-2, patt
 Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=topic-2, patternType=LITERAL)`:
 (principal=User:user, host=*, operation=WRITE, permissionType=ALLOW)
 (principal=User:user, host=*, operation=DESCRIBE, permissionType=ALLOW)
+
+Далее с помощью следующих команд можно сконфигурировать продьюсер/консьюмер и протестировать отправку/чтение
+в консоли.
+
+kafka-acls --authorizer-properties zookeeper.connect=zookeeper:2181 --add --allow-principal User:kafka --operation Write --topic topic-1
+kafka-acls --authorizer-properties zookeeper.connect=zookeeper:2181 --add --allow-principal User:kafka --operation Read --topic topic-1
+kafka-acls --authorizer-properties zookeeper.connect=zookeeper:2181 --add --allow-principal User:kafka --operation Describe --topic topic-1
+
+kafka-console-producer --broker-list localhost:9093 --topic topic-1 --producer.config /properties/client-ssl.properties
+kafka-console-consumer --bootstrap-server localhost:9093 --topic topic-1 --consumer.config /properties/client-ssl.properties --from-beginning
+
+Также привожу скриншоты с отправкой/чтением из топика в консоли.
