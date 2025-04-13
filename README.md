@@ -67,3 +67,55 @@ Topic: balanced_topic   Partition: 7    Leader: 0       Replicas: 0,1,2 Isr: 0,2
 
 Теперь в результатах появился брокер 1 среди лидеров.
 
+Задание 2.
+Выдача прав на запись в топик topic-1:
+
+[appuser@kafka-2 ~]$ kafka-acls --authorizer-properties zookeeper.connect=zookeeper:2181 --add --allow-principal User:user --operation Write --topic topic-1
+Warning: support for ACL configuration directly through the authorizer is deprecated and will be removed in a future release. Please use --bootstrap-server instead to set ACLs through the admin client.
+Adding ACLs for resource `ResourcePattern(resourceType=TOPIC, name=topic-1, patternType=LITERAL)`:
+(principal=User:user, host=*, operation=WRITE, permissionType=ALLOW)
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=topic-1, patternType=LITERAL)`:
+(principal=User:user, host=*, operation=WRITE, permissionType=ALLOW)
+
+Выдача прав на чтение из топика topic-1:
+
+[appuser@kafka-2 ~]$ kafka-acls --authorizer-properties zookeeper.connect=zookeeper:2181 --add --allow-principal User:user --operation Read --topic topic-1
+Warning: support for ACL configuration directly through the authorizer is deprecated and will be removed in a future release. Please use --bootstrap-server instead to set ACLs through the admin client.
+Adding ACLs for resource `ResourcePattern(resourceType=TOPIC, name=topic-1, patternType=LITERAL)`:
+(principal=User:user, host=*, operation=READ, permissionType=ALLOW)
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=topic-1, patternType=LITERAL)`:
+(principal=User:user, host=*, operation=WRITE, permissionType=ALLOW)
+(principal=User:user, host=*, operation=READ, permissionType=ALLOW)
+
+Выдача прав на просмотр информации о ресурсе topic-1:
+
+[appuser@kafka-2 ~]$ kafka-acls --authorizer-properties zookeeper.connect=zookeeper:2181 --add --allow-principal User:user --operation Describe --topic topic-1
+Warning: support for ACL configuration directly through the authorizer is deprecated and will be removed in a future release. Please use --bootstrap-server instead to set ACLs through the admin client.
+Adding ACLs for resource `ResourcePattern(resourceType=TOPIC, name=topic-1, patternType=LITERAL)`:
+(principal=User:user, host=*, operation=DESCRIBE, permissionType=ALLOW)
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=topic-1, patternType=LITERAL)`:
+(principal=User:user, host=*, operation=WRITE, permissionType=ALLOW)
+(principal=User:user, host=*, operation=READ, permissionType=ALLOW)
+(principal=User:user, host=*, operation=DESCRIBE, permissionType=ALLOW)
+
+Выдача прав на запись в топик topic-2:
+[appuser@kafka-2 ~]$ kafka-acls --authorizer-properties zookeeper.connect=zookeeper:2181 --add --allow-principal User:user --operation Write --topic topic-2
+Warning: support for ACL configuration directly through the authorizer is deprecated and will be removed in a future release. Please use --bootstrap-server instead to set ACLs through the admin client.
+Adding ACLs for resource `ResourcePattern(resourceType=TOPIC, name=topic-2, patternType=LITERAL)`:
+(principal=User:user, host=*, operation=WRITE, permissionType=ALLOW)
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=topic-2, patternType=LITERAL)`:
+(principal=User:user, host=*, operation=WRITE, permissionType=ALLOW)
+
+Выдача прав на просмотр информации о ресурсе topic-2:
+[appuser@kafka-2 ~]$ kafka-acls --authorizer-properties zookeeper.connect=zookeeper:2181 --add --allow-principal User:user --operation Describe --topic topic-2
+Warning: support for ACL configuration directly through the authorizer is deprecated and will be removed in a future release. Please use --bootstrap-server instead to set ACLs through the admin client.
+Adding ACLs for resource `ResourcePattern(resourceType=TOPIC, name=topic-2, patternType=LITERAL)`:
+(principal=User:user, host=*, operation=DESCRIBE, permissionType=ALLOW)
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=topic-2, patternType=LITERAL)`:
+(principal=User:user, host=*, operation=WRITE, permissionType=ALLOW)
+(principal=User:user, host=*, operation=DESCRIBE, permissionType=ALLOW)
